@@ -1,3 +1,4 @@
+// prettier-ignore
 module.exports = {
   'env': {
     'browser': true,
@@ -11,5 +12,7 @@ module.exports = {
     'sourceType': 'module',
   },
   'rules': {
+        'linebreak-style': ['error', 'windows'],
+        'require-jsdoc': 'false'
   },
 };

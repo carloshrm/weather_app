@@ -7,5 +7,30 @@
     <link rel="stylesheet" href="style.css" />
     <title>Weathering Stuffs</title>
   </head>
-  <body></body>
+  <body>
+    <div id="main">
+      <div id="searchForm_container">
+        <form id="location_input">
+          <input type="text" placeholder="Location..." required />
+          <input type="submit" value="X" />
+        </form>
+      </div>
+      <div id="current_weather_container">
+        <div>
+          <p id="loc_name"></p>
+          <p id="loc_time"></p>
+        </div>
+        <h1 id="current_temp"></h1>
+        <h2 id="current_feels"></h2>
+        <h3 id="current_hum"></h3>
+
+        <div>
+          <p id="current_windDir"></p>
+          <p id="current_windSp"></p>
+        </div>
+      </div>
+      <div id="forecast_container"></div>
+    </div>
+  </body>
+  <script src="./main.js"></script>
 </html>
