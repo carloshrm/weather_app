@@ -2,12 +2,13 @@
 // toggle unit
 // http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
 
-import { fromUnixTime, format } from "date-fns";
+import { fromUnixTime } from "date-fns";
+import { utcToZonedTime, format } from "date-fns-tz";
 
-const unitSelection = "Metric";
 const searchForm = document.getElementById("location_input");
 const searchContainer = document.getElementById("searchForm_container");
 const currentWeatherContainer = document.getElementById("current_weather_container");
+const forecastContainer = document.getElementById("forecast_container");
 searchForm.addEventListener("submit", getFormInput);
 
 function getFormInput(e) {
@@ -15,9 +16,12 @@ function getFormInput(e) {
   const error = document.getElementById("location_error_text");
   if (error != null) error.remove();
   let locationInfo = fetchLocationCoords(e.target[0].value);
+  let unitSwitch = e.target[2].checked ? "Metric" : "Imperial";
   locationInfo.then((values) => {
-    currentWeatherContainer.querySelector("#loc_name").innerText = values.locName;
-    fetchWeatherData(values.lat, values.lon, unitSelection);
+    currentWeatherContainer.querySelector(
+      "#loc_name"
+    ).innerText = `${values.locName}, ${values.country}`;
+    fetchWeatherData(values.lat, values.lon, unitSwitch);
   });
 }
 
@@ -39,8 +43,10 @@ async function fetchLocationCoords(location) {
     searchContainer.appendChild(error);
     return;
   }
-  const { lat, lon, name: locName } = geoData[0];
-  return { lat, lon, locName };
+  searchForm.reset();
+  const { lat, lon, name: locName, country } = geoData[0];
+  console.log(geoData);
+  return { lat, lon, locName, country };
 }
 
 async function fetchWeatherData(lat, lon, unit) {
@@ -58,9 +64,9 @@ async function fetchWeatherData(lat, lon, unit) {
 }
 
 function parseWeatherData(data) {
-  displayCurrentData(data.current, data.timezone);
-  displayForecastData();
   console.log(data);
+  displayCurrentData(data.current, data.timezone);
+  displayForecastData(data.daily, data.timezone);
 }
 
 function displayCurrentData(currentWeather, timezone) {
@@ -71,12 +77,38 @@ function displayCurrentData(currentWeather, timezone) {
     windDir: currentWeather.wind_deg,
     windSp: currentWeather.wind_speed,
   };
+  let myTime = utcToZonedTime(currentWeather.dt * 1000, timezone);
   currentWeatherContainer.querySelector("#loc_time").innerText = format(
-    fromUnixTime(currentWeather.dt),
-    "d.M.yyyy HH:mm:ss.SSS",
-    { timezone: timezone }
+    myTime,
+    "d.M.yyyy HH:mm zzz",
+    { timeZone: timezone }
   );
   for (const value in currentData) {
     currentWeatherContainer.querySelector(`#current_${value}`).innerText = currentData[value];
   }
+  if (currentWeather.rain !== undefined) {
+    let rain = currentWeatherContainer.querySelector(`#current_rain`);
+    rain.style.display = "Block";
+    rain.innerText = `${currentWeather.rain["1h"]}mm`;
+  }
+  if (currentWeather.snow !== undefined) {
+    let snow = currentWeatherContainer.querySelector(`#current_snow`);
+    snow.style.display = "Block";
+    snow.innerText = `${currentWeather.snow["1h"]}mm`;
+  }
+}
+
+function displayForecastData(forecast, timezone) {
+  console.log(forecast);
+  let daysList = forecastContainer.querySelector(`#forecast_list`);
+  daysList.innerHTML = "";
+  forecast.forEach((day) => {
+    let individualDay = document.createElement("li");
+    individualDay.style.display = "flex";
+    let forcastDate = format(utcToZonedTime(day.dt * 1000, timezone), "dd.MM", {
+      timeZone: timezone,
+    });
+    individualDay.innerHTML = `<li>${forcastDate}</li>|<li>${day.temp.min} min</li>|<li>${day.temp.max} max</li>|<li>${day.pop} preci</li>`;
+    daysList.appendChild(individualDay);
+  });
 }

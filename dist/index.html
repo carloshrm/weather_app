@@ -13,6 +13,7 @@
         <form id="location_input">
           <input type="text" placeholder="Location..." required />
           <input type="submit" value="X" />
+          <input type="checkbox" name="unit_switch" />
         </form>
       </div>
       <div id="current_weather_container">
@@ -28,8 +29,12 @@
           <p id="current_windDir"></p>
           <p id="current_windSp"></p>
         </div>
+        <div>
+          <p id="current_rain"></p>
+          <p id="current_snow"></p>
+        </div>
       </div>
-      <div id="forecast_container"></div>
+      <div id="forecast_container"><ul id="forecast_list"></ul></div>
     </div>
   </body>
   <script src="./main.js"></script>
