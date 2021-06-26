@@ -9,19 +9,29 @@ const searchForm = document.getElementById("location_input");
 const searchContainer = document.getElementById("searchForm_container");
 const currentWeatherContainer = document.getElementById("current_weather_container");
 const forecastContainer = document.getElementById("forecast_container");
+const unitSwitch = document.getElementById("unit_switch");
 searchForm.addEventListener("submit", getFormInput);
+unitSwitch.addEventListener("change", () => {
+  console.log("here");
+});
+
+const dataKeeper = {
+  search: "",
+  currentWeather: "",
+  forecastWeather: "",
+};
 
 function getFormInput(e) {
   e.preventDefault();
   const error = document.getElementById("location_error_text");
   if (error != null) error.remove();
   let locationInfo = fetchLocationCoords(e.target[0].value);
-  let unitSwitch = e.target[2].checked ? "Metric" : "Imperial";
+  let unitSelect = unitSwitch.checked ? "Metric" : "Imperial";
   locationInfo.then((values) => {
     currentWeatherContainer.querySelector(
       "#loc_name"
     ).innerText = `${values.locName}, ${values.country}`;
-    fetchWeatherData(values.lat, values.lon, unitSwitch);
+    fetchWeatherData(values.lat, values.lon, unitSelect);
   });
 }
 
@@ -80,7 +90,7 @@ function displayCurrentData(currentWeather, timezone) {
   let myTime = utcToZonedTime(currentWeather.dt * 1000, timezone);
   currentWeatherContainer.querySelector("#loc_time").innerText = format(
     myTime,
-    "d.M.yyyy HH:mm zzz",
+    "dd.MM.yyyy', 'HH:mm aa zzz",
     { timeZone: timezone }
   );
   for (const value in currentData) {
