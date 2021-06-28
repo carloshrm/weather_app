@@ -45,12 +45,12 @@ h3 {
   align-items: stretch;
   margin-right: 1rem;
 }
-input {
+#location_text {
   padding: 0 0.4rem;
   border-radius: 1rem;
   border: unset;
 }
-input:focus {
+#location_text:focus {
   border: 2px solid;
 }
 :focus {
@@ -89,5 +89,17 @@ input:focus {
   max-width: max-content;
   margin: 0.2rem;
   padding: 0.4rem;
+  background-color: var(--shade-color);
+}
+
+#unit_switch {
+  display: none;
+}
+label {
+  text-align: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--dark-color);
+  border-radius: 1rem;
   background-color: var(--shade-color);
 }

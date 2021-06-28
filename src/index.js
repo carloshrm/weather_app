@@ -5,7 +5,6 @@
 import { fromUnixTime } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
 
-const apiK = "f4bfa4c605eb9cef6b84c59a7bf8bf43";
 const searchForm = document.getElementById("location_input");
 const searchContainer = document.getElementById("searchForm_container");
 const currentWeatherContainer = document.getElementById("current_weather_container");
@@ -14,6 +13,7 @@ const unitSwitch = document.getElementById("unit_switch");
 searchForm.addEventListener("submit", getFormInput);
 unitSwitch.addEventListener("change", () => {
   console.log("here");
+  document.querySelector("label").innerText = "f";
 });
 
 function getFormInput(e) {
@@ -78,6 +78,7 @@ function displayCurrentData(currentWeather, timezone) {
     feels: `Feels Like ${currentWeather.feels_like} ${unitValue}`,
   };
   let myTime = utcToZonedTime(currentWeather.dt * 1000, timezone);
+  console.log(myTime);
   currentWeatherContainer.querySelector("#loc_time").innerText = format(
     myTime,
     "dd.MM.yyyy', 'HH:mm aa zzz",
