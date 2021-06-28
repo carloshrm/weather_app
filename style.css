@@ -1,28 +1,93 @@
-* {
-  margin: 0;
+:root {
+  --dark-color: #132f55;
+  --back-color: #8782c931;
+  --mid-color: #87788a;
+  --light-color: #b8c5e0;
+  --shade-color: #e0effd;
 }
 @import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@700&display=swap");
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: "Oxygen", sans-serif;
+  background-color: var(--light-color);
 }
-
+li {
+  list-style-type: none;
+}
+span {
+  font-weight: bold;
+}
+p {
+  color: var(--dark-color);
+}
+h3 {
+}
 #main {
-  width: 100vw;
-  height: 100vh;
-  background-color: antiquewhite;
+  width: 80vw;
+  height: min-content;
+  margin: 2rem auto;
+  background-color: var(--back-color);
 }
 #searchForm_container {
-  padding: 1rem;
-  background-color: aquamarine;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  padding: 0.5rem;
+}
+#location_input {
+  display: flex;
+  height: 2rem;
+  align-items: stretch;
+  margin-right: 1rem;
+}
+input {
+  padding: 0 0.4rem;
+  border-radius: 1rem;
+  border: unset;
+}
+input:focus {
+  border: 2px solid;
+}
+:focus {
+  outline: none;
+}
+#location_button {
+  position: relative;
+  transform: translatex(-2.5rem) scale(0.9);
+  border: unset;
+  background-color: white;
 }
 #current_weather_container {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  background-color: azure;
+  background-color: var(--shade-color);
 }
 #loc_name {
   font-size: 3rem;
   font-weight: bold;
+}
+#forecast_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: var(--back-color);
+  text-align: center;
+}
+#forecast_list p {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.forecast_day {
+  flex: 1 0 auto;
+  border: 2px solid var(--light-color);
+  max-width: max-content;
+  margin: 0.2rem;
+  padding: 0.4rem;
+  background-color: var(--shade-color);
 }
