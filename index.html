@@ -11,7 +11,7 @@
     <div id="main">
       <div id="searchForm_container">
         <form id="location_input">
-          <input type="text" placeholder="Location..." required maxlength="14" />
+          <input id="location_text" type="text" placeholder="Location..." required maxlength="14" />
           <button type="submit" id="location_button">
             <svg
               width="24"
@@ -30,6 +30,7 @@
           </button>
         </form>
         <p id="location_error_text"></p>
+        <label for="unit_switch"></label>
         <input type="checkbox" id="unit_switch" name="unit_switch" />
       </div>
       <div id="current_weather_container">
