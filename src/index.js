@@ -75,7 +75,6 @@ async function fetchWeatherData(lat, lon) {
 }
 
 function parseWeatherData(data) {
-  console.log(data);
   headerText.style.display = "none";
   document.getElementById("daily_header").style.display = "Block";
   displayCurrentData(data.current, data.timezone);
@@ -90,7 +89,6 @@ function displayCurrentData(currentWeather, timezone) {
     feels: `Feels Like ${currentWeather.feels_like} ${unitValue}`,
   };
   let myTime = utcToZonedTime(currentWeather.dt * 1000, timezone);
-  console.log(myTime);
   currentWeatherContainer.querySelector("#loc_time").innerText = format(
     myTime,
     "dd.MM.yyyy', 'HH:mm aa zzz",
