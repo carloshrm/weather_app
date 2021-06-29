@@ -1,7 +1,7 @@
 :root {
   --dark-color: #132f55;
   --back-color: #8782c931;
-  --mid-color: #87788a;
+  --mid-color: #a3c2c7;
   --light-color: #b8c5e0;
   --shade-color: #e0effd;
 }
@@ -25,8 +25,15 @@ span {
 p {
   color: var(--dark-color);
 }
-h3 {
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
 }
+h3,
+h4 {
+  padding-left: 1rem;
+}
+
 #main {
   width: 80vw;
   height: min-content;
@@ -35,9 +42,16 @@ h3 {
 }
 #searchForm_container {
   display: flex;
-  width: max-content;
+  background-color: var(--dark-color);
   align-items: center;
   padding: 0.5rem;
+}
+#searchForm_container p {
+  position: absolute;
+  top: 0;
+  color: red;
+  font-weight: bold;
+  background-color: white;
 }
 #location_input {
   display: flex;
@@ -61,6 +75,11 @@ h3 {
   transform: translatex(-2.5rem) scale(0.9);
   border: unset;
   background-color: white;
+}
+#button_graphic {
+  position: absolute;
+  top: 5px;
+  left: 10px;
 }
 #current_weather_container {
   display: flex;
@@ -91,15 +110,68 @@ h3 {
   padding: 0.4rem;
   background-color: var(--shade-color);
 }
+#daily_header {
+  display: none;
+  padding: 1rem;
+  color: white;
+  background-color: var(--dark-color);
+}
+#loc_time {
+  background-color: var(--back-color);
+  font-weight: bold;
+  padding: 0.2rem 1rem;
+}
+#greeting_header {
+  font-weight: bold;
+  font-size: 1rem;
+}
 
-#unit_switch {
+.switch input {
   display: none;
 }
-label {
-  text-align: center;
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid var(--dark-color);
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 26px;
+}
+.slider {
   border-radius: 1rem;
-  background-color: var(--shade-color);
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--mid-color);
+  transition: 0.4s;
+}
+.slider::after {
+  content: "°C";
+  color: white;
+  position: absolute;
+  right: 4px;
+  top: -1px;
+  padding: 0.2rem;
+  border-radius: 1rem;
+}
+.slider::before {
+  position: absolute;
+  border-radius: 1rem;
+  content: "";
+  height: 14px;
+  width: 20px;
+  left: 8px;
+  bottom: 6px;
+  background-color: white;
+}
+input:checked + .slider {
+  background-color: #470f0f;
+}
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+input:checked + .slider::after {
+  content: "°F";
+  left: 4px;
 }
