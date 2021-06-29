@@ -37,7 +37,7 @@ function getFormInput(e) {
 }
 
 async function fetchLocationCoords(location) {
-  const geoAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${apiK}`;
+  const geoAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${apiK}`;
   try {
     let geoData = await fetch(geoAPI, { mode: "cors" });
     if (geoData.ok) {
