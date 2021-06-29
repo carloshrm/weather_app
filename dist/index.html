@@ -14,6 +14,7 @@
           <input id="location_text" type="text" placeholder="Location..." required maxlength="14" />
           <button type="submit" id="location_button">
             <svg
+              id="button_graphic"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -29,9 +30,11 @@
             </svg>
           </button>
         </form>
+        <label for="unit_switch" class="switch">
+          <input type="checkbox" id="unit_switch" name="unit_switch" />
+          <span class="slider"></span>
+        </label>
         <p id="location_error_text"></p>
-        <label for="unit_switch"></label>
-        <input type="checkbox" id="unit_switch" name="unit_switch" />
       </div>
       <div id="current_weather_container">
         <div id="name_time">
@@ -40,7 +43,7 @@
         </div>
         <h1 id="current_temp"></h1>
         <h3 id="current_feels"></h3>
-        <h4 id="current_hum">Search for a city.</h4>
+        <h4 id="current_hum"></h4>
 
         <div>
           <p id="current_windDir"></p>
@@ -50,8 +53,10 @@
           <p id="current_rain"></p>
           <p id="current_snow"></p>
         </div>
+        <p id="greeting_header">Type in the name for a city above to search.</p>
       </div>
       <div id="forecast_container">
+        <h4 id="daily_header">Daily Forecast</h4>
         <ul id="forecast_list"></ul>
       </div>
     </div>

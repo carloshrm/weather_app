@@ -6,7 +6,6 @@ module.exports = {
     poll: 1000,
     ignored: "**/node_modules",
   },
-  mode: "development",
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),

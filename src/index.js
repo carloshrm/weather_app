@@ -5,15 +5,21 @@
 import { fromUnixTime } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
 
+const apiK = "f4bfa4c605eb9cef6b84c59a7bf8bf43";
+const headerText = document.getElementById("greeting_header");
 const searchForm = document.getElementById("location_input");
 const searchContainer = document.getElementById("searchForm_container");
 const currentWeatherContainer = document.getElementById("current_weather_container");
 const forecastContainer = document.getElementById("forecast_container");
 const unitSwitch = document.getElementById("unit_switch");
+const formButton = document.getElementById("location_button");
 searchForm.addEventListener("submit", getFormInput);
-unitSwitch.addEventListener("change", () => {
-  console.log("here");
-  document.querySelector("label").innerText = "f";
+unitSwitch.addEventListener("change", (e) => {
+  if (searchForm[0].value !== "") {
+    formButton.click();
+    e.target.disabled = true;
+    setTimeout(() => (e.target.disabled = false), 10000);
+  }
 });
 
 function getFormInput(e) {
@@ -26,6 +32,7 @@ function getFormInput(e) {
       "#loc_name"
     ).innerText = `${values.locName}, ${values.country}`;
     fetchWeatherData(values.lat, values.lon);
+    headerText.innerText = "Loading...";
   });
 }
 
@@ -35,9 +42,12 @@ async function fetchLocationCoords(location) {
     let geoData = await fetch(geoAPI, { mode: "cors" });
     if (geoData.ok) {
       geoData = await geoData.json();
-      searchForm.reset();
-      const { lat, lon, name: locName, country } = geoData[0];
-      return { lat, lon, locName, country };
+      if (geoData.length !== 0) {
+        const { lat, lon, name: locName, country } = geoData[0];
+        return { lat, lon, locName, country };
+      } else {
+        throw new Error("Location not found.");
+      }
     } else {
       throw new Error(geoData.statusText);
     }
@@ -49,7 +59,7 @@ async function fetchLocationCoords(location) {
 }
 
 async function fetchWeatherData(lat, lon) {
-  let unitSelect = unitSwitch.checked ? "Metric" : "Imperial";
+  let unitSelect = !unitSwitch.checked ? "Metric" : "Imperial";
   const weatherAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiK}&units=${unitSelect}`;
   try {
     let weatherData = await fetch(weatherAPI, { mode: "cors" });
@@ -66,12 +76,14 @@ async function fetchWeatherData(lat, lon) {
 
 function parseWeatherData(data) {
   console.log(data);
+  headerText.style.display = "none";
+  document.getElementById("daily_header").style.display = "Block";
   displayCurrentData(data.current, data.timezone);
   displayForecastData(data.daily, data.timezone);
 }
 
 function displayCurrentData(currentWeather, timezone) {
-  let unitValue = `°${unitSwitch.checked ? "C" : "F"}`;
+  let unitValue = `°${unitSwitch.checked ? "F" : "C"}`;
   const currentData = {
     hum: `Humidity ${currentWeather.humidity}%`,
     temp: `${currentWeather.temp} ${unitValue}`,
