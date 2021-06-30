@@ -8,10 +8,13 @@ const currentWeatherContainer = document.getElementById("current_weather_contain
 const forecastContainer = document.getElementById("forecast_container");
 const unitSwitch = document.getElementById("unit_switch");
 const locationName = document.getElementById("loc_name");
+const formButton = document.getElementById("location_button");
 searchForm.addEventListener("submit", getFormInput);
-unitSwitch.addEventListener("change", () => {
-  if (dataStorage !== undefined) {
-    parseWeatherData(dataStorage);
+unitSwitch.addEventListener("change", (e) => {
+  if (searchForm[0].value !== "") {
+    formButton.click();
+    e.target.disabled = true;
+    setTimeout(() => (e.target.disabled = false), 3000);
   }
 });
 
@@ -65,14 +68,11 @@ async function fetchWeatherData(lat, lon) {
   }
 }
 
-let dataStorage = undefined;
 function parseWeatherData(data) {
   headerText.style.display = "none";
   document.getElementById("daily_header").style.display = "Block";
-  localStorage();
-  dataStorage = data;
-  displayCurrentData(dataStorage.current, dataStorage.timezone);
-  displayForecastData(dataStorage.daily, dataStorage.timezone);
+  displayCurrentData(data.current, data.timezone);
+  displayForecastData(data.daily, data.timezone);
 }
 
 function displayCurrentData(currentWeather, timezone) {
