@@ -15,10 +15,8 @@ const unitSwitch = document.getElementById("unit_switch");
 const formButton = document.getElementById("location_button");
 searchForm.addEventListener("submit", getFormInput);
 unitSwitch.addEventListener("change", (e) => {
-  if (searchForm[0].value !== "") {
-    formButton.click();
-    e.target.disabled = true;
-    setTimeout(() => (e.target.disabled = false), 10000);
+  if (dataStorage !== undefined) {
+    parseWeatherData(dataStorage);
   }
 });
 
@@ -74,11 +72,13 @@ async function fetchWeatherData(lat, lon) {
   }
 }
 
+let dataStorage = undefined;
 function parseWeatherData(data) {
   headerText.style.display = "none";
   document.getElementById("daily_header").style.display = "Block";
-  displayCurrentData(data.current, data.timezone);
-  displayForecastData(data.daily, data.timezone);
+  dataStorage = data;
+  displayCurrentData(dataStorage.current, dataStorage.timezone);
+  displayForecastData(dataStorage.daily, dataStorage.timezone);
 }
 
 function displayCurrentData(currentWeather, timezone) {

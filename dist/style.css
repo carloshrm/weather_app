@@ -40,6 +40,11 @@ h4 {
   margin: 2rem auto;
   background-color: var(--back-color);
 }
+@media only screen and (max-width: 800px) {
+  #main {
+    width: 100vw;
+  }
+}
 #searchForm_container {
   display: flex;
   background-color: var(--dark-color);
@@ -174,4 +179,8 @@ input:checked + .slider::before {
 input:checked + .slider::after {
   content: "°F";
   left: 4px;
+}
+span {
+  font-size: 0.6rem;
+  padding: 0 1rem;
 }
