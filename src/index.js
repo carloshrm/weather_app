@@ -1,8 +1,3 @@
-// api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}&units={unit}
-// toggle unit
-// http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
-
-import { fromUnixTime } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
 
 const apiK = "f4bfa4c605eb9cef6b84c59a7bf8bf43";
@@ -12,9 +7,9 @@ const searchContainer = document.getElementById("searchForm_container");
 const currentWeatherContainer = document.getElementById("current_weather_container");
 const forecastContainer = document.getElementById("forecast_container");
 const unitSwitch = document.getElementById("unit_switch");
-const formButton = document.getElementById("location_button");
+const locationName = document.getElementById("loc_name");
 searchForm.addEventListener("submit", getFormInput);
-unitSwitch.addEventListener("change", (e) => {
+unitSwitch.addEventListener("change", () => {
   if (dataStorage !== undefined) {
     parseWeatherData(dataStorage);
   }
@@ -26,9 +21,7 @@ function getFormInput(e) {
   if (formError != null) formError.remove();
   let locationInfo = fetchLocationCoords(e.target[0].value);
   locationInfo.then((values) => {
-    currentWeatherContainer.querySelector(
-      "#loc_name"
-    ).innerText = `${values.locName}, ${values.country}`;
+    locationName.innerText = `${values.locName}, ${values.country}`;
     fetchWeatherData(values.lat, values.lon);
     headerText.innerText = "Loading...";
   });
@@ -76,6 +69,7 @@ let dataStorage = undefined;
 function parseWeatherData(data) {
   headerText.style.display = "none";
   document.getElementById("daily_header").style.display = "Block";
+  localStorage();
   dataStorage = data;
   displayCurrentData(dataStorage.current, dataStorage.timezone);
   displayForecastData(dataStorage.daily, dataStorage.timezone);
