@@ -1,6 +1,5 @@
 import { utcToZonedTime, format } from "date-fns-tz";
 
-const apiK = "f4bfa4c605eb9cef6b84c59a7bf8bf43";
 const headerText = document.getElementById("greeting_header");
 const searchForm = document.getElementById("location_input");
 const searchContainer = document.getElementById("searchForm_container");
